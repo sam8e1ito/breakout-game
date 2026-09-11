@@ -173,11 +173,11 @@ python index.py
 
 ## Controls
 
-| Key   | Action            |
-| ----- | ----------------- |
-| `A`   | Move paddle left  |
-| `D`   | Move paddle right |
-| `ESC` | Quit the game     |
+| Key     | Action            |
+| ------- | ----------------- |
+| `A`     | Move paddle left  |
+| `D`     | Move paddle right |
+| `SPACE` | Create a new ball |
 
 ---
 

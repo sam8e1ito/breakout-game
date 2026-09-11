@@ -1,5 +1,10 @@
+# Python
 __pycache__/
-**/__pycache__/
+*.py[cod]
 
-users.json
+# Virtual environment
+.venv/
+
+# Local data
 store/score.sqlite
+users.json
