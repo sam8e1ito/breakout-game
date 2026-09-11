@@ -3,7 +3,7 @@ import os
 from random_username.generate import generate_username
 
 from store import db_utils
-from data import state
+from data import state, constants
 
 USERS_FILE = os.path.join(os.path.dirname(__file__), '..', 'users.json')
 
@@ -16,7 +16,7 @@ def init_user():
             state.user = user
             return user
 
-    new_user = state.user_empty_state
+    new_user = constants.user_empty_state
     db_utils.init_user_db(new_user)
     with open(USERS_FILE, 'w') as f:
         json.dump({'id': new_user['id']}, f)
