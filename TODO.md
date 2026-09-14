@@ -23,10 +23,6 @@ Todays Date: 11.09.2026
 
 ### Big Refactor
 
-Tasks:
-
-- [ ] create folders for different purposes
-
 ## Project Structure:
 
 ```

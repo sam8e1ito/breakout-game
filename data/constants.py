@@ -17,7 +17,7 @@ user_empty_state = {
 }
 
 SCREEN = {
-    "WIDTH": 640,
+    "WIDTH": 940,
     "HEIGHT": 400,
     "COLOR": pygame.Color(33, 20, 43)
 }

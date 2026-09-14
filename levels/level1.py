@@ -3,7 +3,7 @@ from data import constants
 
 def generateLevel1(screen, space, brick_shapes):
     w, h = constants.BRICK['WIDTH'], constants.BRICK['HEIGHT']
-    cols = int(screen.get_width() - 160) // (w + constants.PADDING)
+    cols = int(480 // (w + constants.PADDING))
     center_col = (cols - 1) / 2 
     center_row = constants.ROWS / 2
     radius = min(cols, constants.ROWS) / 2.5 #die groesse

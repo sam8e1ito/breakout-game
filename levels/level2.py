@@ -3,7 +3,7 @@ from data import state, constants
 
 def generateLevel2(screen, space, brick_shapes):
     w, h = constants.BRICK['WIDTH'], constants.BRICK['HEIGHT']
-    cols = int(screen.get_width() - 160) // (w + constants.PADDING)
+    cols = int(480 // (w + constants.PADDING))
     center_col = (cols - 1)/ 2
     base_gap = 1.0
     freeColsRow1 = [1, 2, 3, cols - 2, cols - 3, cols - 4]

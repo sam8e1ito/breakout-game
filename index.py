@@ -45,8 +45,8 @@ def main():
 
     rwall = pymunk.Segment(
         space.static_body, 
-        (screen.get_width() - 40, 40), 
-        (screen.get_width() - 40, screen.get_height() - 20), 
+        (600, 40), 
+        (600, screen.get_height() - 20), 
         constants.WALL["RADIUS"]
     )
     rwall.filter = pymunk.ShapeFilter(categories=constants.WALL["CATEGORY"])
@@ -57,7 +57,7 @@ def main():
     twall = pymunk.Segment(
         space.static_body, 
         (40, screen.get_height() - 20), 
-        (screen.get_width() - 40, screen.get_height() - 20), 
+        (600, screen.get_height() - 20), 
         constants.WALL['RADIUS']
     )
     twall.filter = pymunk.ShapeFilter(categories=constants.WALL["CATEGORY"])
@@ -69,7 +69,7 @@ def main():
     bottom = pymunk.Segment(
         space.static_body, 
         (40, 40), 
-        (screen.get_width() - 40, 40), 
+        (600, 40), 
         constants.BOTTOM["RADIUS"]
     )
     bottom.sensor = True
@@ -101,7 +101,7 @@ def main():
     space.on_collision(constants.POWERUP["COLLISION_TYPE"], constants.BOTTOM['COLLISION_TYPE'], begin=powerup_collision.on_powerup_missed)
     space.on_collision(constants.POWERUP["COLLISION_TYPE"], constants.PADDLE['COLLISION_TYPE'], begin=powerup_collision.on_powerup_collected)
 
-    move_joint = pymunk.GrooveJoint(space.static_body, paddle_body, (100, 100), (screen.get_width() - 100, 100), (0, 0))
+    move_joint = pymunk.GrooveJoint(space.static_body, paddle_body, (100, 100), (540, 100), (0, 0))
     space.add(paddle_body, paddle_shape, move_joint)
 
     board = classes.Board(
@@ -144,7 +144,12 @@ def main():
         space.step(1.0 / 60)
         utils.update_powerup_timer()
 
-        screen.blit(font.render("fps: " + str(clock.get_fps()), 1, pygame.Color("white")), (0, 0))
+
+        screen.blit(font.render("fps: " + str(clock.get_fps()), 1, pygame.Color("white")), (10, screen.get_height() - 30))
+        screen.blit(font.render(f"{user['username']}", 1, pygame.Color('white')), (640, 20))
+        screen.blit(font.render(f"Your highest score: {state.user['score']}", 1, pygame.Color('white')), (640, 40))
+        screen.blit(font.render(f"Your current score: {state.currentScore}", 1, pygame.Color('white')), (640, 60))
+
         if state.DID_USER_WIN:
             screen.blit(
                 font.render(
@@ -152,7 +157,7 @@ def main():
                     1, 
                     pygame.Color("green")
                 ), 
-                (screen.get_width() / 2 - 40, screen.get_height() / 2 -10)
+                (280, screen.get_height() / 2 -10)
             )
 
 

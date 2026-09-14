@@ -1,4 +1,5 @@
 from .db_init import *
+from classes import User
 
 def get_user_db(user_id): # returns the dict of a user
     rows = execute_read("SELECT * FROM score WHERE id = ?", (user_id,))
@@ -18,6 +19,6 @@ def init_user_db(user):
         (user['id'], user['username'], user['score'])
     )
 
-def log_highscore(user_data):
+def log_highscore(user_data: User):
     id, username, score = user_data['id'], user_data['username'], user_data['score']
     execute_write("UPDATE score SET username = ?, score = ? WHERE id = ?", (username, score, id))

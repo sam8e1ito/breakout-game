@@ -26,3 +26,4 @@ main_ball = None
 ball_boost_end_time = None
 
 user: "User | None" = None
+currentScore = 0
