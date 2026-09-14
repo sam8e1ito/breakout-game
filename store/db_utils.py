@@ -1,24 +1,26 @@
 from .db_init import *
 from classes import User
+from operator import itemgetter
 
-def get_user_db(user_id): # returns the dict of a user
-    rows = execute_read("SELECT * FROM score WHERE id = ?", (user_id,))
+
+def get_user_db(username):
+    rows = execute_read("SELECT * FROM score WHERE username = ?", (username,))
     if not rows:
         return None
     return dict(rows[0])
 
-def init_user_db(user):
-    execute_write(
-        """
-        INSERT INTO score(id, username, score)
-        VALUES (?, ?, ?)
-        ON CONFLICT(id) DO UPDATE SET
-            username = excluded.username,
-            score = excluded.score
-        """,
-        (user['id'], user['username'], user['score'])
-    )
-
 def log_highscore(user_data: User):
-    id, username, score = user_data['id'], user_data['username'], user_data['score']
-    execute_write("UPDATE score SET username = ?, score = ? WHERE id = ?", (username, score, id))
+    username, score = user_data['username'], user_data['score']
+    execute_write("UPDATE score SET score = ? WHERE username = ?", (score, username))
+
+def get_users():
+    try:
+        rows = execute_read("SELECT username, score FROM score ORDER BY score DESC")
+        return rows if rows is not None else []
+    except Exception as e:
+        print(f"DB Error while fetching users: {e}")
+        return []
+    
+def sort_users(users: dict):
+    sorted_users = dict(sorted(users.items(), key=itemgetter(1), reverse=True))
+    return sorted_users

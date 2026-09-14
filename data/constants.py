@@ -42,7 +42,7 @@ PADDLE = {
 BRICK = {
     "WIDTH": 25,
     "HEIGHT": 20,
-    "COLOR": pygame.Color(252, 3, 165),
+    "COLOR": pygame.Color(252, 3, 165, 255),
     "CATEGORY": 0b000100,
     "COLLISION_TYPE": COLLISION_TYPES['brick']
 }

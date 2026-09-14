@@ -1,4 +1,4 @@
-from typing import TYPE_CHECKING
+from typing import TYPE_CHECKING, Union, Literal
 from random_username.generate import generate_username
 
 if TYPE_CHECKING:
@@ -27,3 +27,13 @@ ball_boost_end_time = None
 
 user: "User | None" = None
 currentScore = 0
+
+type Screen = Union[
+    Literal['menu'], 
+    Literal['menu_start'], 
+    Literal['menu_stats'], 
+    Literal['menu_mechanics'], 
+    Literal['game']
+]
+current_screen: Screen = 'menu'
+running = True

@@ -1,13 +1,16 @@
 import pymunk, random
 
 from data import state, constants
-from features import ball_feature
+from features import ball_feature, brick_feature
 
 def space_has_shape(space, shape):
     return shape in space.shapes
 
+GOLD = (255, 215, 0, 255)  # Golden RGBA tuple for score bricks
+
 class Board:
-    count = None
+    secretCount = None
+    scoreCount = 0
 
     def __init__(self, space, paddle_body, screen, generate_level_fn, level_generators):
         self.space = space
@@ -41,16 +44,30 @@ class Board:
         )
 
     def _choose_secret_bricks(self):
-        while Board.count > 0:
-            for i in range(0, len(state.brick_shapes)):
-                is_secret = Board.count > 0 and random.randint(0,2) == 1
-                if is_secret == True:
-                    state.brick_shapes[i].user_data = {'secret': True}
-                    Board.count -= 1
+        while Board.secretCount > 0:
+            for brick in state.brick_shapes:
+                if Board.secretCount <= 0:
+                    break
 
+                if not getattr(brick, 'secret', False) and random.randint(0, 2) == 1:
+                    brick.secret = True
+                    Board.secretCount -= 1
+    
+    def _choose_score_bricks(self):
+        while Board.scoreCount > 0:
+            for brick in state.brick_shapes:
+                if Board.scoreCount <= 0:
+                    brick.color = constants.BRICK['COLOR']
+                    break
 
-    def _init_count(self):
-        Board.count = int(len(state.brick_shapes) / 3)
+                if not getattr(brick, 'score', False) and random.randint(0, 2) == 1:
+                    brick.score = True
+                    brick.color = GOLD
+                    Board.scoreCount -= 1
+
+    def _init_counts(self):
+        Board.secretCount = int(len(state.brick_shapes) / 3)
+        Board.scoreCount = int(len(state.brick_shapes) / 2)
 
     def start(self):
         if state.DID_USER_WIN:
@@ -60,8 +77,9 @@ class Board:
 
         self._spawn_starting_ball()
         self.generate_level_fn(self.screen, self.space, state.brick_shapes)
-        self._init_count()
+        self._init_counts()
         self._choose_secret_bricks()
+        self._choose_score_bricks()
 
     def reset(self):
         state.failAttempts = 3
@@ -73,5 +91,6 @@ class Board:
 
         self._spawn_starting_ball()
         self.level_generators[state.currentLevel](self.screen, self.space, state.brick_shapes)
-        self._init_count()
+        self._init_counts()
         self._choose_secret_bricks()
+        self._choose_score_bricks()
