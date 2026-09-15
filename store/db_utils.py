@@ -2,12 +2,14 @@ from .db_init import *
 from classes import User
 from operator import itemgetter
 
-
 def get_user_db(username):
+    if hasattr(username, "username"):
+        username = username.username
+    elif isinstance(username, (dict, sqlite3.Row)):
+        username = username["username"]
+    
     rows = execute_read("SELECT * FROM score WHERE username = ?", (username,))
-    if not rows:
-        return None
-    return dict(rows[0])
+    return rows[0] if rows else None
 
 def log_highscore(user_data: User):
     username, score = user_data['username'], user_data['score']
@@ -20,10 +22,6 @@ def get_users():
     except Exception as e:
         print(f"DB Error while fetching users: {e}")
         return []
-    
-def sort_users(users: dict):
-    sorted_users = dict(sorted(users.items(), key=itemgetter(1), reverse=True))
-    return sorted_users
 
 def delete_user(user):
     execute_write(

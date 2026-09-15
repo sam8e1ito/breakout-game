@@ -1,6 +1,5 @@
 import pygame
 from classes import Button
-from utils import sort_users
 from data import constants
 
 class MenuStats:
@@ -9,7 +8,7 @@ class MenuStats:
         self.buttons = {
             "back": Button("Back", (100, 50), size=(100, 40)),
         }
-        self.users = sort_users(users or [])
+        self.users = users or []
         
         self.scroll_y = 0
         self.scroll_speed = 25
@@ -23,7 +22,7 @@ class MenuStats:
         self.refresh_users(users or [])
 
     def refresh_users(self, users):
-        self.users = sort_users(users or [])
+        self.users = users or []
         self.content_height = max(100, len(self.users) * 40 + 40)
         self.max_scroll = max(0, self.content_height - (self.screen_height - 100))
         self.scroll_y = max(0, min(self.scroll_y, self.max_scroll))
@@ -44,7 +43,7 @@ class MenuStats:
         header_rect = pygame.Rect(0, 0, self.screen_width, self.header_height)
         pygame.draw.rect(surface, pygame.Color(constants.SCREEN['COLOR']), header_rect)
 
-        title_surf = font.render("Users Leaderboard", True, pygame.Color('yellow'))
+        title_surf = font.render("Users Leaderboard", True, pygame.Color('white'))
         title_rect = title_surf.get_rect(center=(self.screen_width / 2, 50))
         surface.blit(title_surf, title_rect)
 

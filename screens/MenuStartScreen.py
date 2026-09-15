@@ -1,17 +1,17 @@
 import pygame
 from classes import Button
-from utils import sort_users, generate_guest
+from utils import generate_guest
 from data import constants
 from store import db_utils
 
 class MenuStart:
     def __init__(self, screen_size, users):
         self.screen_width, self.screen_height = screen_size
-        self.users = sort_users(users)
+        self.users = users
         
         self.static_buttons = {
             "back": Button("Back", (100, 50), size=(100, 50)),
-            "newUser": Button('New User', (self.screen_width - 170, 50), color=pygame.Color('green'), size=(170, 50))
+            "newUser": Button('New User', (self.screen_width - 170, 50), color=pygame.Color(127, 235, 113), size=(170, 50))
         }
         
         self.choose_buttons = []
@@ -26,7 +26,7 @@ class MenuStart:
         self._init_user_buttons()
 
     def refresh_users(self, users):
-        self.users = sort_users(users)
+        self.users = users
         self._update_scroll_bounds()
         self._init_user_buttons()
 
@@ -123,7 +123,7 @@ class MenuStart:
         header_rect = pygame.Rect(0, 0, self.screen_width, self.header_height)
         pygame.draw.rect(surface, pygame.Color(constants.SCREEN['COLOR']), header_rect)
 
-        title_surf = font.render("Users", True, pygame.Color('yellow'))
+        title_surf = font.render("Users", True, pygame.Color('white'))
         title_rect = title_surf.get_rect(center=(self.screen_width / 2, 50))
         surface.blit(title_surf, title_rect)
 

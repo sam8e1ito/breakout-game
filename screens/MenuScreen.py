@@ -9,7 +9,7 @@ class MenuScreen:
             "start": Button("Start", (center_x, 130), pygame.Color(245, 176, 130)),
             "stats": Button("Stats", (center_x, 200), pygame.Color(219, 203, 191)),
             "mechanics": Button("Game Mechanics", (center_x, 270), pygame.Color(81, 207, 104)),
-            "quit": Button("Quit", (center_x, 340), pygame.Color("red")),
+            "quit": Button("Quit", (center_x, 340), pygame.Color(237, 97, 78)),
         }
 
     def handle_event(self, event, state):
@@ -25,7 +25,7 @@ class MenuScreen:
 
     def draw(self, surface, font):
         pygame.display.set_caption('Breakout Game - Menu')
-        title_surf = font.render("Breakout Game", True, pygame.Color('yellow'))
+        title_surf = font.render("Breakout Game", True, pygame.Color('white'))
         title_rect = title_surf.get_rect(center=(surface.get_width() / 2, 50))
         surface.blit(title_surf, title_rect)
 

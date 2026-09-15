@@ -58,7 +58,7 @@ class MenuMechanics:
         header_rect = pygame.Rect(0, 0, self.screen_width, header_height)
         pygame.draw.rect(surface, pygame.Color(constants.SCREEN['COLOR']), header_rect)
 
-        title_surf = font.render("Game Mechanics", True, pygame.Color('yellow'))
+        title_surf = font.render("Game Mechanics", True, pygame.Color('white'))
         title_rect = title_surf.get_rect(center=(self.screen_width / 2, 50))
         surface.blit(title_surf, title_rect)
 
