@@ -1,4 +1,5 @@
 import uuid
+import random
 from random_username.generate import generate_username
 import pygame, pymunk
 from dataclasses import dataclass
@@ -28,12 +29,13 @@ COLLISION_TYPES = {
     'bottom': 3,
     'paddle': 4,
     'wall': 5,
-    'powerup': 6
+    'powerup': 6,
+    'asteroid': 7
 }
 
 PADDLE = {
     "COLLISION_TYPE": COLLISION_TYPES["paddle"],
-    "CATEGORY": 0b000010,
+    "CATEGORY": 0b000010, # 2
     "COLOR": pygame.Color(242, 236, 206),
     "RADIUS": 8,
     "DEFAULT_ENDPOINTS": ((-50, 0), (50,0))
@@ -43,35 +45,44 @@ BRICK = {
     "WIDTH": 25,
     "HEIGHT": 20,
     "COLOR": pygame.Color(252, 3, 165, 255),
-    "CATEGORY": 0b000100,
+    "CATEGORY": 0b000100, # 4
     "COLLISION_TYPE": COLLISION_TYPES['brick']
 }
 
 WALL = {
     "RADIUS": 2,
-    "CATEGORY": 0b001000,
+    "CATEGORY": 0b001000, # 8
     "COLLISION_TYPE": COLLISION_TYPES["wall"],
     "COLOR": pygame.Color('gray')
 }
 
 BOTTOM = {
     "RADIUS": 2,
-    "CATEGORY": 0b010000,
+    "CATEGORY": 0b010000, # 16
     "COLLISION_TYPE": COLLISION_TYPES["bottom"],
     "COLOR": pygame.Color('red')
 }
 
 BALL = {
     "RADIUS": 12.5,
-    "CATEGORY": 0b000001,
+    "CATEGORY": 0b000001, # 1
     "COLOR": pygame.Color(148, 252, 20),
     "COLLISION_TYPE": COLLISION_TYPES["ball"]
 }
 
 POWERUP = {
     "RADIUS": 12.5,
-    "CATEGORY": 0b100000,
+    "CATEGORY": 0b100000, # 32
     "COLLISION_TYPE": COLLISION_TYPES["powerup"]
+}
+
+_ASTEROID_COLOR_PALETTE = [pygame.Color(255, 0, 0), pygame.Color(140, 42, 39), pygame.Color(250, 96, 7), pygame.Color(250, 197, 7)]
+
+ASTEROID = {
+    'SIZE': (20, 25),
+    'CATEGORY': 0b000011, # 3
+    'COLLISION_TYPE': COLLISION_TYPES['asteroid'],
+    'COLORS': _ASTEROID_COLOR_PALETTE
 }
 
 ALL_CATEGORY = pymunk.ShapeFilter.ALL_CATEGORIES()

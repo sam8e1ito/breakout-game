@@ -16,8 +16,10 @@ def toggleWin():
     global DID_USER_WIN
     DID_USER_WIN = not DID_USER_WIN
 
-FAIL_ATTEMPTS = 3
+FAIL_ATTEMPTS = 5
 doesBallAlreadyExist = False
+
+DAMAGE_TAKEN = 0
 
 paddle_boost_end_time = None
 paddle_shape = None
