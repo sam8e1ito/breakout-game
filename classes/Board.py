@@ -6,7 +6,7 @@ from features import ball_feature, brick_feature
 def space_has_shape(space, shape):
     return shape in space.shapes
 
-GOLD = (255, 215, 0, 255)  # Golden RGBA tuple for score bricks
+GOLD = (255, 215, 0, 255)
 
 class Board:
     secretCount = None

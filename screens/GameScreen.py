@@ -6,7 +6,6 @@ import pymunk.pygame_util
 
 from data import state, constants
 from store import db_utils
-from classes import User 
 import levels
 import features
 import classes

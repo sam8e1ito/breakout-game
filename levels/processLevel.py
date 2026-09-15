@@ -8,7 +8,6 @@ LEVELS = {
     2: generateLevel2,
 }
 
-# space, , ball_radius, screen, box_size, box_color, padding, rows, top_offset, collision_types
 def processLevel(action):
     delta = 1 if action == 'next' else -1
     target = state.currentLevel + delta
