@@ -82,7 +82,8 @@ class Board:
         self._choose_score_bricks()
 
     def reset(self):
-        state.failAttempts = 3
+        state.FAIL_ATTEMPTS = 5
+        state.DAMAGE_TAKEN = 0
         state.doesBallAlreadyExist = False
 
         if state.DID_USER_WIN:

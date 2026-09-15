@@ -11,6 +11,7 @@ import features
 import classes
 from collisions import *
 import utils
+from classes import Asteroid
 
 
 class Game:
@@ -20,6 +21,8 @@ class Game:
         self.font = pygame.font.SysFont("Arial", 16)
         self.user = db_utils.get_user_db(username)
         state.user = self.user
+
+        self.timer_started = False
 
         self.space = pymunk.Space()
         pymunk.pygame_util.positive_y_is_up = True
@@ -33,6 +36,8 @@ class Game:
         self.space.on_collision(constants.BRICK["COLLISION_TYPE"], constants.BALL['COLLISION_TYPE'], begin=brick_collision.remove_brick)
         self.space.on_collision(constants.POWERUP["COLLISION_TYPE"], constants.BOTTOM['COLLISION_TYPE'], begin=powerup_collision.on_powerup_missed)
         self.space.on_collision(constants.POWERUP["COLLISION_TYPE"], constants.PADDLE['COLLISION_TYPE'], begin=powerup_collision.on_powerup_collected)
+        self.space.on_collision(constants.ASTEROID['COLLISION_TYPE'], constants.PADDLE['COLLISION_TYPE'], begin=paddle_hit_by_asteroid)
+        self.space.on_collision(constants.ASTEROID['COLLISION_TYPE'], constants.BOTTOM['COLLISION_TYPE'], begin=asteroid_missed)
 
         self.board = classes.Board(
             self.space, 
@@ -45,6 +50,15 @@ class Game:
 
         state.board = self.board
         state.space = self.space
+
+    def start_spawner(self, event_type):
+        pygame.time.set_timer(event_type, 5000)
+        self.timer_started = True
+
+    def stop_spawner(self, event_type):
+        pygame.time.set_timer(event_type, 0)
+        self.timer_started = False
+
 
     def _setup_physics_world(self):
         screen_h = self.surface.get_height()
@@ -95,7 +109,15 @@ class Game:
         move_joint = pymunk.GrooveJoint(self.space.static_body, self.paddle_body, (100, 100), (540, 100), (0, 0))
         self.space.add(self.paddle_body, self.paddle_shape, move_joint)
 
-    def handle_event(self, event, state_obj):
+    def handle_event(self, event, state_obj, SPAWN_ASTEROID_EVENT):
+        if not self.timer_started:
+            self.start_spawner(SPAWN_ASTEROID_EVENT)
+
+        if event.type == SPAWN_ASTEROID_EVENT:
+            Asteroid.spawn_asteroid(self.space)
+
+        if state.current_screen != 'game':
+            self.stop_spawner(SPAWN_ASTEROID_EVENT)
         if event.type == pygame.KEYDOWN:
             if event.key == pygame.K_a:
                 self.paddle_body.velocity = (-600, 0)
@@ -113,10 +135,12 @@ class Game:
                 )
             elif event.key == pygame.K_ESCAPE:
                 state_obj.current_screen = 'menu'
+                self.stop_spawner(SPAWN_ASTEROID_EVENT)
 
         elif event.type == pygame.KEYUP:
             if event.key in (pygame.K_a, pygame.K_d):
                 self.paddle_body.velocity = (0, 0)
+
 
     def draw(self, surface, font=None):
         screen_h = surface.get_height()
@@ -130,6 +154,7 @@ class Game:
         surface.blit(ui_font.render(f"Your highest score: {state.user['score']}", 1, pygame.Color('white')), (640, 80))
         surface.blit(ui_font.render(f"Your current score: {state.currentScore}", 1, pygame.Color('white')), (640, 120))
         surface.blit(ui_font.render(f"Balls left: {state.FAIL_ATTEMPTS}", 1, pygame.Color('white')), (640, screen_h - 60))
+        surface.blit(ui_font.render(f"Damage taken: {state.DAMAGE_TAKEN}", 1, pygame.Color('white')), (640, screen_h - 100))
 
         if getattr(state, 'DID_USER_WIN', False):
             surface.blit(

@@ -13,31 +13,35 @@ class MenuStats:
         
         self.scroll_y = 0
         self.scroll_speed = 25
+        self.header_height = 80
         self.content_height = max(100, len(self.users) * 40 + 40)
         self.max_scroll = max(0, self.content_height - (self.screen_height - 100))
         
         self.content_surface = pygame.Surface((self.screen_width, self.content_height))
 
-    def update_users(self, users):
+
+        self.refresh_users(users or [])
+
+    def refresh_users(self, users):
         self.users = sort_users(users or [])
         self.content_height = max(100, len(self.users) * 40 + 40)
         self.max_scroll = max(0, self.content_height - (self.screen_height - 100))
+        self.scroll_y = max(0, min(self.scroll_y, self.max_scroll))
         self.content_surface = pygame.Surface((self.screen_width, self.content_height))
 
     def handle_event(self, event, state):
         if self.buttons["back"].is_clicked(event):
             state.current_screen = 'menu'
+            return
         if event.type == pygame.MOUSEWHEEL:
             self.scroll_y -= event.y * self.scroll_speed
             self.scroll_y = max(0, min(self.scroll_y, self.max_scroll))
 
     def draw(self, surface, font):
         self._render_content(font)
-        
-        header_height = 80
-        surface.blit(self.content_surface, (0, header_height - self.scroll_y))
+        surface.blit(self.content_surface, (0, self.header_height - self.scroll_y))
 
-        header_rect = pygame.Rect(0, 0, self.screen_width, header_height)
+        header_rect = pygame.Rect(0, 0, self.screen_width, self.header_height)
         pygame.draw.rect(surface, pygame.Color(constants.SCREEN['COLOR']), header_rect)
 
         title_surf = font.render("Users Leaderboard", True, pygame.Color('yellow'))

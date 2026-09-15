@@ -24,3 +24,12 @@ def get_users():
 def sort_users(users: dict):
     sorted_users = dict(sorted(users.items(), key=itemgetter(1), reverse=True))
     return sorted_users
+
+def delete_user(user):
+    execute_write(
+        """
+        DELETE FROM score WHERE username = ?
+        """,
+        (user['username'],)
+    )
+    return True

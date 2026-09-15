@@ -10,3 +10,5 @@ store/score.sqlite
 **/score.sqlite
 store/*.sqlite
 users.json
+
+TODO.md

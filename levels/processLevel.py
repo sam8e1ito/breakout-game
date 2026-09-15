@@ -16,6 +16,5 @@ def processLevel(action):
         return state.currentLevel
 
     state.board.reset()
-    state.FAIL_ATTEMPTS = 3
     state.currentLevel = target
     return target

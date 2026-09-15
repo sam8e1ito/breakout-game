@@ -36,8 +36,21 @@ menu_stats = MenuStats((screen.get_width(), screen.get_height()), all_users)
 menu_mechanics = MenuMechanics((screen.get_width(), screen.get_height()))
 
 game = Game(screen, state.user)
+SPAWN_ASTEROID_EVENT = pygame.USEREVENT + 1
+
+previous_screen = state.current_screen
 
 while state.running:
+    if state.current_screen != previous_screen:
+        fresh_users = db_utils.get_users()
+
+        if state.current_screen == 'menu_start':
+            menu_start.refresh_users(fresh_users)
+        elif state.current_screen == 'menu_stats':
+            menu_stats.refresh_users(fresh_users)
+
+        previous_screen = state.current_screen
+
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             db_utils.close_db()
@@ -58,7 +71,9 @@ while state.running:
             menu_mechanics.handle_event(event, state)
 
         elif state.current_screen == 'game':
-            game.handle_event(event, state)
+            game.handle_event(event, state, SPAWN_ASTEROID_EVENT)
+
+            
 
     screen.fill(constants.SCREEN['COLOR'])
 
@@ -73,7 +88,7 @@ while state.running:
     elif state.current_screen == 'game':
         game.draw(screen, font)
     
-    screen.blit(smallFont.render("fps: " + str(clock.get_fps()), 1, pygame.Color("white")), (10, screen.get_height() - 20))
+    screen.blit(smallFont.render("fps: " + str(int(clock.get_fps())), 1, pygame.Color("white")), (10, screen.get_height() - 20))
 
     pygame.display.flip()
     clock.tick(60)
