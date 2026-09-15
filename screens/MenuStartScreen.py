@@ -1,8 +1,7 @@
 import pygame
 from classes import Button
-from utils import sort_users
+from utils import sort_users, generate_guest
 from data import constants
-from classes import User
 
 class MenuStart:
     def __init__(self, screen_size, users):
@@ -46,6 +45,10 @@ class MenuStart:
         if self.static_buttons["back"].is_clicked(event):
             state.current_screen = 'menu'
             return
+        if self.static_buttons['newUser'].is_clicked(event):
+            generate_guest()
+            state.currentScore = 0
+            state.current_screen = 'game'
 
         if event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:
             adjusted_pos = (event.pos[0], event.pos[1] - self.header_height + self.scroll_y)

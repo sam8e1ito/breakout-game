@@ -128,8 +128,8 @@ class Game:
         utils.update_powerup_timer()
 
         surface.blit(ui_font.render(f"{state.user['username']}", 1, pygame.Color('white')), (640, 20))
-        surface.blit(ui_font.render(f"Your highest score: {state.user['score']}", 1, pygame.Color('white')), (640, 40))
-        surface.blit(ui_font.render(f"Your current score: {state.currentScore}", 1, pygame.Color('white')), (640, 60))
+        surface.blit(ui_font.render(f"Your highest score: {state.user['score']}", 1, pygame.Color('white')), (640, 80))
+        surface.blit(ui_font.render(f"Your current score: {state.currentScore}", 1, pygame.Color('white')), (640, 120))
         surface.blit(ui_font.render(f"Balls left: {state.FAIL_ATTEMPTS}", 1, pygame.Color('white')), (640, screen_h - 60))
 
         if getattr(state, 'DID_USER_WIN', False):
